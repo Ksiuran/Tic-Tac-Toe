@@ -1,9 +1,15 @@
 import string
 
 
+# For some reason they wanted the grid co-ords to look like
+# (1,3) (2,3) (3,3)
+# (1,2) (2,2) (3,2)
+# (1,1) (2,1) (3,1)
+# Rather than the top left being 1,1 and the bottom right being 3,3
+# check if there's a line of Xes
 def xcheck(lst):
     if lst[0] == 'X' and lst[1] == 'X' and lst[2] == 'X':  # horizontal top
-        # print("horizontal top x")
+        # print("horizontal top x") these commented print statements were for debugging
         return True
     elif lst[0] == 'X' and lst[3] == 'X' and lst[6] == 'X':  # vertical left
         # print("vertical left x")
@@ -30,6 +36,7 @@ def xcheck(lst):
         return False
 
 
+# Check for a line of Os
 def ocheck(lst):
     if lst[0] == 'O' and lst[1] == 'O' and lst[2] == 'O':  # horizontal top
         # print("horizontal top o")
@@ -60,13 +67,17 @@ def ocheck(lst):
 
 
 def running(lst):
+    # Check if there are blank spaces and if neither x or o has a line
     if lst.count(' ') > 0 and not xcheck(lst) and not ocheck(lst):
+        # if so, the game is still running
         return True
     else:
         return False
 
 
 def play(lst):
+    # This is the logic for editing the location of the chosen cell
+    # converting between locations in the list and the co-ords they wanted me to use above
     going = 1
     while going == 1:
         x, y = input("Enter the coordinates:").split()
@@ -86,6 +97,9 @@ def play(lst):
                         lst.insert(loc, "X")
                         lst.pop(-1)
                         lst.insert(len(lst), "O")
+                        # What's going on with the x and o here is I always have one
+                        # at the end of the array, to tell me what comes next without having
+                        # to do any additional vars and args
                     else:
                         lst.pop(loc)
                         lst.insert(loc, "O")
@@ -99,10 +113,12 @@ def play(lst):
         else:
             print("You should enter numbers!")
 
-
+# create a str with 9 spaces
 cells = "         "
 game = [x for x in cells]
+# convert those spaces into an array
 playing = 1
+# put an X at the end so that X has first play
 game.insert(len(game), "X")
 while playing == 1:
     print("---------\n| {} {} {} |\n| {} {} {} |\n| {} {} {} |\n---------".format(game[0], game[1], game[2], game[3],
